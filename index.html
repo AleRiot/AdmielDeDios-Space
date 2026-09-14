@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdmielDeDios — Mi espacio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root{
+  --bg:#f7f1fb;
+  --bg2:#eee3f6;
+  --card:rgba(255,255,255,.68);
+  --ink:#493c52;
+  --muted:#8a7892;
+  --lilac:#b99acb;
+  --pink:#e7b7d5;
+  --gold:#c8a76a;
+  --white:#fff;
+  --shadow:0 25px 70px rgba(105,75,120,.16);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:Montserrat,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(231,183,213,.55),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(185,154,203,.45),transparent 30%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  overflow-x:hidden;
+}
+button{font:inherit}
+
+/* Intro */
+#intro{
+  position:fixed;inset:0;z-index:100;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(255,255,255,.75),transparent 25%),
+    linear-gradient(135deg,#f9edf7,#e7d8f1 55%,#f8e7f0);
+  transition:1s ease;
+}
+#intro.hide{opacity:0;visibility:hidden;transform:scale(1.05);pointer-events:none}
+#intro:before,#intro:after{
+  content:"";position:absolute;border-radius:50%;filter:blur(2px);
+  animation:float 8s ease-in-out infinite alternate;
+}
+#intro:before{
+  width:260px;height:260px;left:7%;top:12%;
+  background:rgba(231,183,213,.28);
+}
+#intro:after{
+  width:320px;height:320px;right:4%;bottom:8%;
+  background:rgba(185,154,203,.25);animation-delay:-3s;
+}
+@keyframes float{to{transform:translate(18px,-22px) scale(1.08)}}
+
+.intro-box{text-align:center;position:relative;z-index:2;padding:30px}
+.intro-flower{font-size:36px;letter-spacing:12px;margin-bottom:10px;opacity:.75}
+.logo{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(64px,11vw,130px);
+  line-height:.8;
+  letter-spacing:.04em;
+  color:#6d5577;
+}
+.logo span{
+  display:block;
+  margin-top:22px;
+  font:500 11px Montserrat,sans-serif;
+  letter-spacing:.55em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.enter{
+  margin-top:42px;
+  border:1px solid rgba(200,167,106,.65);
+  border-radius:999px;
+  padding:14px 30px;
+  color:#6c5874;
+  background:rgba(255,255,255,.48);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(105,75,120,.10);
+  transition:.3s;
+}
+.enter:hover{transform:translateY(-3px);background:white}
+
+/* App + navigation */
+.app{opacity:0;min-height:100vh;transition:1s}
+.app.show{opacity:1}
+.clean-menu{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);
+  z-index:50;width:205px;padding:12px;
+  display:flex;flex-direction:column;gap:8px;
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:24px;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:.4s;
+}
+.clean-menu.open{opacity:1;visibility:visible;pointer-events:auto}
+.clean-menu:before{
+  content:"AdmielDeDios";
+  display:block;padding:8px 10px 12px;
+  font:600 20px "Cormorant Garamond",serif;
+  color:#6e5677;text-align:center;
+}
+.clean-menu button,.menu-tab{
+  border:1px solid rgba(185,154,203,.28);
+  border-radius:14px;
+  background:rgba(255,255,255,.38);
+  color:#68566f;
+  padding:11px 13px;
+  text-align:left;
+  letter-spacing:.08em;
+  font-size:10px;
+  cursor:pointer;
+  transition:.25s;
+}
+.clean-menu button:hover{
+  transform:translateX(-4px);
+  background:rgba(255,255,255,.8);
+  border-color:rgba(200,167,106,.55);
+}
+.menu-tab{
+  position:fixed;right:0;top:50%;transform:translateY(-50%);
+  z-index:51;width:38px;min-height:112px;
+  border-radius:18px 0 0 18px;
+  writing-mode:vertical-rl;
+  text-align:center;padding:12px 7px;
+  background:rgba(255,255,255,.68);
+  backdrop-filter:blur(14px);
+  box-shadow:0 12px 35px rgba(105,75,120,.13);
+}
+.menu-tab.hidden{opacity:0;pointer-events:none}
+
+/* Pages */
+.page{
+  display:none;
+  min-height:100vh;
+  padding:8vh clamp(24px,7vw,100px) 90px;
+  max-width:1300px;
+  margin:auto;
+}
+.page.active{display:block;animation:pageIn .7s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+.eyebrow{
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;
+}
+.page h1{
+  margin:0 0 12px;
+  font:600 clamp(48px,7vw,88px)/.9 "Cormorant Garamond",serif;
+  color:#634e6b;
+}
+.subtitle{color:var(--muted);max-width:650px;line-height:1.8}
+
+/* Portal */
+#home{display:grid;place-items:center;text-align:center}
+.home-wrap{max-width:900px}
+.home-wrap .ornament{font-size:32px;margin-bottom:12px;opacity:.7}
+.home-wrap h1{font-size:clamp(65px,10vw,120px);margin:0}
+.home-wrap p{max-width:650px;margin:25px auto;line-height:1.9;color:var(--muted)}
+.portal-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;
+}
+.portal-card{
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:25px;padding:26px 18px;
+  background:rgba(255,255,255,.52);
+  color:var(--ink);cursor:pointer;
+  box-shadow:var(--shadow);transition:.35s;
+}
+.portal-card:hover{transform:translateY(-7px) rotate(-.5deg);background:rgba(255,255,255,.82)}
+.portal-card .icon{font-size:28px}
+.portal-card h3{font:600 27px "Cormorant Garamond",serif;margin:12px 0 4px}
+.portal-card p{font-size:11px;margin:0 0 15px}
+.portal-card span{font-size:9px;letter-spacing:.18em;color:var(--gold)}
+
+/* About / history */
+.about-grid{
+  display:grid;grid-template-columns:340px 1fr;gap:34px;align-items:start;
+}
+.profile-card,.history-card,.audio-card,.quote-card{
+  border:1px solid rgba(255,255,255,.78);
+  background:var(--card);
+  backdrop-filter:blur(16px);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+}
+.profile-card{padding:24px;text-align:center;position:sticky;top:25px}
+.avatar{
+  width:190px;height:190px;margin:0 auto 18px;border-radius:50%;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 35% 30%,#fff 0 8%,transparent 9%),
+    linear-gradient(145deg,#ead0e5,#c5add6);
+  border:7px solid rgba(255,255,255,.75);
+  box-shadow:0 12px 35px rgba(105,75,120,.16);
+  font:600 55px "Cormorant Garamond",serif;color:#fff;
+}
+.profile-card h2{font:600 34px "Cormorant Garamond",serif;margin:0;color:#6a5572}
+.profile-card small{color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:17px}
+.tag{
+  padding:7px 10px;border-radius:999px;
+  background:rgba(231,183,213,.25);
+  color:#755f7d;font-size:9px;letter-spacing:.05em;
+}
+.history-card{padding:32px}
+.history-step{display:none;animation:stepIn .45s ease}
+.history-step.active{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateX(15px)}to{opacity:1;transform:none}}
+.history-step p{font:500 clamp(22px,3vw,34px)/1.55 "Cormorant Garamond",serif;color:#5d4b64;margin:0}
+.history-step strong{color:#9c7296}
+.history-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:35px}
+.history-controls button{
+  border:1px solid rgba(185,154,203,.35);border-radius:999px;
+  padding:10px 14px;background:rgba(255,255,255,.45);color:#6d5874;
+  cursor:pointer;font-size:10px;letter-spacing:.1em;
+}
+.dots{display:flex;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;border:1px solid #b99acb;background:transparent;padding:0}
+.dot.active{background:#b99acb}
+
+/* Gallery */
+.gallery{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:35px;
+}
+.gallery-item{
+  min-height:230px;border-radius:25px;
+  display:grid;place-items:center;text-align:center;padding:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,.72),rgba(231,183,213,.27));
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:var(--shadow);
+  overflow:hidden;position:relative;
+}
+.gallery-item:before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 25% 20%,rgba(255,255,255,.8),transparent 25%);
+}
+.gallery-item .placeholder{position:relative;z-index:1}
+.gallery-item .placeholder b{display:block;font:600 30px "Cormorant Garamond",serif}
+.gallery-item .placeholder span{font-size:9px;letter-spacing:.16em;color:var(--muted)}
+.replace-note{
+  margin-top:18px;font-size:10px;color:var(--muted);
+  padding:13px 16px;border-radius:15px;background:rgba(255,255,255,.42)
+}
+
+/* Audio */
+.audio-wrap{max-width:720px;margin:45px auto;text-align:center}
+.audio-card{padding:40px}
+.disc{
+  width:190px;height:190px;margin:0 auto 25px;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle,#fff 0 8%,#e7bfdc 9% 11%,#b99acb 12% 40%,#81668e 41% 44%,#b99acb 45%);
+  box-shadow:0 0 0 10px rgba(255,255,255,.35),0 25px 55px rgba(105,75,120,.2);
+  animation:spin 9s linear infinite paused;
+}
+body.playing .disc{animation-play-state:running}
+@keyframes spin{to{transform:rotate(360deg)}}
+.audio-card h2{font:600 38px "Cormorant Garamond",serif;margin:0}
+.audio-card p{color:var(--muted);font-size:11px;letter-spacing:.15em}
+.audio-btn{
+  border:1px solid rgba(200,167,106,.7);border-radius:999px;
+  padding:13px 28px;background:rgba(255,255,255,.5);color:#6d5874;
+  cursor:pointer;letter-spacing:.16em
+}
+.quote-card{padding:25px;margin-top:20px}
+.quote-card p{font:500 25px "Cormorant Garamond",serif;margin:0}
+.quote-card span{display:block;margin-top:10px;color:var(--gold);font-size:10px;letter-spacing:.15em}
+
+/* Mobile */
+@media(max-width:850px){
+  .clean-menu{right:12px;width:min(270px,calc(100vw - 24px))}
+  .portal-grid,.about-grid,.gallery{grid-template-columns:1fr}
+  .profile-card{position:static}
+  .page{padding:70px 22px 70px}
+}
+@media(max-width:520px){
+  .logo{font-size:64px}
+  .portal-grid{gap:12px}
+  .portal-card{padding:20px 14px}
+  .history-card{padding:22px}
+  .history-step p{font-size:25px}
+}
+
+/* ===== Versión femenina inspirada en la captura ===== */
+:root{
+  --bg:#f8f1fb;
+  --bg2:#e8ddf5;
+  --ink:#57455f;
+  --muted:#927f9b;
+  --lilac:#a889c2;
+  --pink:#e9bfdc;
+  --gold:#c7a665;
+}
+body{
+  background:
+    radial-gradient(circle at 18% 15%,rgba(238,193,220,.58),transparent 25%),
+    radial-gradient(circle at 84% 16%,rgba(177,148,204,.45),transparent 28%),
+    radial-gradient(circle at 55% 92%,rgba(255,255,255,.9),transparent 34%),
+    linear-gradient(135deg,#faf5fc 0%,#eee4f6 48%,#f9edf5 100%);
+}
+body:after{
+  content:"";
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.8) 0 1px,transparent 2px),
+    radial-gradient(circle at 70% 65%,rgba(255,255,255,.65) 0 1px,transparent 2px);
+  background-size:95px 95px,130px 130px;
+  opacity:.55;
+}
+.petals{
+  position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1;
+}
+.petals i{
+  position:absolute;top:-40px;
+  font-style:normal;color:rgba(166,126,187,.25);
+  animation:fall 15s linear infinite;
+}
+.petals i:nth-child(1){left:7%;font-size:20px;animation-delay:0s}
+.petals i:nth-child(2){left:22%;font-size:15px;animation-delay:4s}
+.petals i:nth-child(3){left:39%;font-size:25px;animation-delay:8s}
+.petals i:nth-child(4){left:55%;font-size:14px;animation-delay:2s}
+.petals i:nth-child(5){left:70%;font-size:22px;animation-delay:6s}
+.petals i:nth-child(6){left:84%;font-size:17px;animation-delay:10s}
+.petals i:nth-child(7){left:94%;font-size:25px;animation-delay:12s}
+@keyframes fall{
+  0%{transform:translateY(-50px) rotate(0deg);opacity:0}
+  12%{opacity:1}
+  100%{transform:translateY(110vh) translateX(70px) rotate(300deg);opacity:0}
+}
+.app{position:relative;z-index:2}
+.page{position:relative}
+.home-wrap h1,.page h1{
+  text-shadow:0 8px 25px rgba(128,91,143,.12);
+}
+.home-wrap h1:after{
+  content:"♡";
+  display:block;
+  font:300 20px Montserrat,sans-serif;
+  letter-spacing:.5em;
+  color:var(--gold);
+  margin-top:22px;
+}
+.profile-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(247,231,244,.62));
+}
+.avatar{
+  background:
+    radial-gradient(circle at 32% 27%,rgba(255,255,255,.95),transparent 12%),
+    radial-gradient(circle at 68% 75%,rgba(255,255,255,.35),transparent 22%),
+    linear-gradient(145deg,#d9c0e6,#efc9df);
+  position:relative;
+}
+.avatar:after{
+  content:"♡";
+  position:absolute;right:5px;bottom:5px;
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#fff;color:#c59bc1;
+  font-size:17px;box-shadow:0 5px 15px rgba(105,75,120,.15);
+}
+.history-card{
+  background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(250,237,247,.62));
+}
+.history-step p{
+  font-weight:600;
+  letter-spacing:.01em;
+}
+.quote-card{
+  background:linear-gradient(100deg,rgba(231,183,213,.25),rgba(255,255,255,.5));
+  border-color:rgba(200,167,106,.24);
+}
+.quote-card p{
+  color:#765a7b;
+}
+.gallery-item{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,255,255,.85),transparent 35%),
+    linear-gradient(145deg,rgba(255,255,255,.75),rgba(233,191,220,.32));
+}
+
+
+/* ===== CORRECCIONES DE MAQUETACIÓN V2 ===== */
+html,body{width:100%;min-width:0}
+body{overflow-x:hidden}
+
+main{
+  width:100%;
+  display:block;
+}
+
+.page{
+  width:min(1180px,100%);
+  min-height:100vh;
+  margin:0 auto;
+  padding:clamp(55px,8vh,95px) clamp(20px,5vw,70px) 85px;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:stretch;
+}
+.page.active{display:flex}
+
+/* Portada perfectamente centrada */
+#home{
+  width:min(1180px,100%);
+  margin:0 auto;
+  min-height:100vh;
+  padding-left:clamp(20px,5vw,70px);
+  padding-right:clamp(20px,5vw,70px);
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.home-wrap{
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+}
+.home-wrap p{
+  width:min(680px,100%);
+  margin:25px auto;
+}
+.portal-grid{
+  width:100%;
+  max-width:900px;
+  margin:40px auto 0;
+  justify-items:stretch;
+}
+.portal-card{width:100%}
+
+/* Cabeçalhos internos alinhados e com largura controlada */
+#about,#gallery,#audio{
+  align-items:center;
+}
+#about>.eyebrow,#about>h1,#about>.subtitle,
+#gallery>.eyebrow,#gallery>h1,#gallery>.subtitle,
+#audio>.eyebrow,#audio>h1{
+  width:100%;
+  max-width:1050px;
+  margin-left:auto;
+  margin-right:auto;
+}
+#about>.eyebrow,#about>h1,#gallery>.eyebrow,#gallery>h1,#audio>.eyebrow,#audio>h1{
+  text-align:center;
+}
+#about>.subtitle,#gallery>.subtitle{
+  text-align:center;
+}
+
+/* Sobre mí: columnas equilibradas y centradas */
+.about-grid{
+  width:100%;
+  max-width:1050px;
+  margin:38px auto 0;
+  grid-template-columns:minmax(270px,330px) minmax(0,1fr);
+  align-items:stretch;
+}
+.profile-card{
+  width:100%;
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.history-card{
+  width:100%;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.history-step p{
+  max-width:780px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+.history-controls{
+  width:100%;
+  max-width:780px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* Galería */
+.gallery{
+  width:100%;
+  max-width:1050px;
+  margin:38px auto 0;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+.gallery-item{
+  width:100%;
+  min-width:0;
+}
+.replace-note{
+  width:100%;
+  max-width:1050px;
+  margin:18px auto 0;
+  text-align:center;
+}
+
+/* Música */
+.audio-wrap{
+  width:100%;
+  max-width:760px;
+  margin:38px auto 0;
+}
+.audio-card{width:100%}
+.audio-card h2,.audio-card p{text-align:center}
+#audio>.quote-card{
+  width:100%;
+  max-width:760px;
+  margin:20px auto 0;
+  text-align:center;
+}
+
+/* Menú: evita que se salga en pantallas pequeñas */
+.clean-menu{
+  max-height:calc(100vh - 24px);
+  overflow-y:auto;
+}
+
+/* Tablets */
+@media(max-width:850px){
+  .page{
+    min-height:auto;
+    padding-top:75px;
+    padding-bottom:75px;
+  }
+  #home{min-height:100vh}
+  .about-grid{
+    grid-template-columns:1fr;
+    max-width:700px;
+  }
+  .profile-card{
+    position:static;
+    min-height:0;
+  }
+  .gallery{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-width:760px;
+  }
+}
+
+/* Celulares */
+@media(max-width:560px){
+  .page,#home{
+    padding-left:15px;
+    padding-right:15px;
+  }
+  .page h1{
+    font-size:clamp(48px,15vw,68px);
+  }
+  .home-wrap h1{
+    font-size:clamp(58px,17vw,82px);
+  }
+  .portal-grid{
+    grid-template-columns:1fr;
+    max-width:390px;
+    margin-top:30px;
+  }
+  .portal-card{
+    min-height:150px;
+  }
+  .about-grid{
+    margin-top:28px;
+  }
+  .history-card{
+    padding:20px;
+  }
+  .history-controls{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .dots{order:-1;width:100%;justify-content:center}
+  .gallery{
+    grid-template-columns:1fr;
+    max-width:430px;
+  }
+  .gallery-item{
+    min-height:190px;
+  }
+  .audio-wrap{
+    max-width:430px;
+  }
+  .audio-card{
+    padding:28px 18px;
+  }
+  .disc{
+    width:155px;height:155px;
+  }
+}
+
+/* Evita desbordes por textos largos */
+h1,h2,h3,p,span,button{overflow-wrap:anywhere}
+
+
+/* =========================================================
+   ADMielDeDios — REFINAMIENTO DE LAYOUT / V3
+   Un mismo eje visual para portada, Sobre mí, galería y música.
+   ========================================================= */
+
+:root{
+  --content-max: 1050px;
+  --content-gutter: clamp(18px, 4vw, 56px);
+  --section-gap: clamp(24px, 4vw, 42px);
+  --card-radius: 28px;
+}
+
+/* Un único sistema de ancho */
+.page,
+#home{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding-left:var(--content-gutter);
+  padding-right:var(--content-gutter);
+}
+
+.page > *,
+.home-wrap{
+  width:100%;
+  max-width:var(--content-max);
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* La portada usa exactamente el mismo eje que las demás secciones */
+#home{
+  display:none;
+  min-height:100vh;
+  padding-top:clamp(48px,7vh,82px);
+  padding-bottom:clamp(48px,7vh,82px);
+}
+#home.active{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.home-wrap{
+  text-align:center;
+}
+.home-wrap .portal-grid{
+  width:100%;
+  max-width:var(--content-max);
+}
+
+/* Encabezados: misma caja y mismo ritmo vertical */
+#about,
+#gallery,
+#audio{
+  justify-content:center;
+}
+#about > .eyebrow,
+#gallery > .eyebrow,
+#audio > .eyebrow{
+  margin-top:0;
+  margin-bottom:10px;
+}
+#about > h1,
+#gallery > h1,
+#audio > h1{
+  margin-top:0;
+  margin-bottom:12px;
+}
+#about > .subtitle,
+#gallery > .subtitle{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+/* Contenido principal siempre comienza en el mismo eje */
+.about-grid,
+.gallery,
+.audio-wrap,
+#audio > .quote-card,
+.replace-note{
+  width:100%;
+  max-width:var(--content-max);
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* Sobre mí: dos tarjetas con alturas y respiración coherentes */
+.about-grid{
+  margin-top:var(--section-gap);
+  gap:clamp(20px,3vw,32px);
+}
+.profile-card,
+.history-card{
+  border-radius:var(--card-radius);
+}
+.profile-card{
+  min-height:100%;
+}
+.history-card{
+  min-height:100%;
+}
+
+/* Galería: mismo ancho exterior y separaciones regulares */
+.gallery{
+  margin-top:var(--section-gap);
+  gap:clamp(14px,2vw,20px);
+}
+.gallery-item{
+  border-radius:var(--card-radius);
+}
+
+/* Música: la tarjeta principal queda centrada sobre el mismo eje */
+.audio-wrap{
+  margin-top:var(--section-gap);
+}
+.audio-card{
+  border-radius:var(--card-radius);
+}
+#audio > .quote-card{
+  margin-top:20px;
+  border-radius:var(--card-radius);
+}
+
+/* Evita que el menú lateral altere la percepción del centro */
+.clean-menu,
+.menu-tab{
+  position:fixed;
+}
+
+/* Tablet */
+@media(max-width:850px){
+  :root{
+    --content-gutter:clamp(16px,3.5vw,30px);
+  }
+
+  .page,
+  #home{
+    padding-top:62px;
+    padding-bottom:62px;
+  }
+
+  .page > *,
+  .home-wrap{
+    max-width:760px;
+  }
+
+  .about-grid,
+  .gallery,
+  .audio-wrap,
+  #audio > .quote-card,
+  .replace-note{
+    max-width:760px;
+  }
+}
+
+/* Móvil: un solo eje, sin desplazamientos laterales */
+@media(max-width:560px){
+  :root{
+    --content-gutter:15px;
+    --section-gap:25px;
+    --card-radius:22px;
+  }
+
+  .page,
+  #home{
+    padding-left:var(--content-gutter);
+    padding-right:var(--content-gutter);
+    padding-top:55px;
+    padding-bottom:55px;
+  }
+
+  #home.active{
+    min-height:100svh;
+  }
+
+  .home-wrap,
+  .page > *,
+  .about-grid,
+  .gallery,
+  .audio-wrap,
+  #audio > .quote-card,
+  .replace-note{
+    width:100%;
+    max-width:430px;
+  }
+
+  .home-wrap h1{
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .home-wrap p{
+    width:100%;
+    max-width:380px;
+  }
+
+  .portal-grid{
+    width:100%;
+    max-width:390px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .about-grid{
+    margin-top:var(--section-gap);
+  }
+
+  .profile-card,
+  .history-card{
+    width:100%;
+  }
+
+  .gallery{
+    margin-top:var(--section-gap);
+  }
+
+  .audio-wrap{
+    margin-top:var(--section-gap);
+  }
+
+  /* El botón lateral no invade el contenido */
+  .menu-tab{
+    right:0;
+  }
+}
+
+
+/* =========================================================
+   INTRO — CENTRADO REAL DE LA PORTADA ANTES DE ENTRAR
+   ========================================================= */
+#intro{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100dvh;
+  min-height:100vh;
+  padding:0;
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* La caja central ocupa el eje exacto de la pantalla */
+#intro .intro-box{
+  position:relative;
+  z-index:3;
+  width:min(92vw,760px);
+  max-width:760px;
+  margin:0 auto;
+  padding:28px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transform:none;
+}
+
+/* El logo no hereda desplazamientos ni anchuras extra */
+#intro .logo{
+  width:100%;
+  margin:0 auto;
+  text-align:center;
+  line-height:.86;
+}
+
+/* Subtítulo perfectamente centrado */
+#intro .logo span{
+  display:block;
+  width:100%;
+  margin:20px auto 0;
+  text-align:center;
+}
+
+/* Ornamento y botón en el mismo eje */
+#intro .intro-flower,
+#intro .enter{
+  align-self:center;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#intro .intro-flower{
+  width:100%;
+  text-align:center;
+  margin-top:0;
+}
+
+#intro .enter{
+  margin-top:38px;
+}
+
+/* Los círculos decorativos nunca participan en el layout */
+#intro:before,
+#intro:after{
+  pointer-events:none;
+}
+
+/* Móvil: corregir la sensación de desplazamiento por el tamaño del texto */
+@media(max-width:560px){
+  #intro .intro-box{
+    width:min(94vw,430px);
+    padding:24px 12px;
+  }
+
+  #intro .logo{
+    font-size:clamp(55px,17vw,76px);
+    letter-spacing:.025em;
+  }
+
+  #intro .logo span{
+    font-size:9px;
+    letter-spacing:.38em;
+    margin-top:18px;
+  }
+
+  #intro .intro-flower{
+    font-size:27px;
+    letter-spacing:8px;
+  }
+
+  #intro .enter{
+    margin-top:32px;
+    padding:13px 24px;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="petals" aria-hidden="true">
+  <i>♡</i><i>✿</i><i>♡</i><i>✧</i><i>♡</i><i>❀</i><i>♡</i>
+</div>
+
+<div id="intro">
+  <div class="intro-box">
+    <div class="intro-flower">✿ ♡ ✿</div>
+    <div class="logo">AdmielDeDios<span>mi espacio personal</span></div>
+    <button class="enter" id="enter">Entrar a mi espacio</button>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <button class="menu-tab" id="menuTab" aria-expanded="false">MENÚ</button>
+
+  <nav class="clean-menu" id="menu">
+    <button data-page="home">♡ INICIO</button>
+    <button data-page="about">SOBRE MÍ</button>
+    <button data-page="gallery">MIS MOMENTOS</button>
+    <button data-page="audio">MI MÚSICA</button>
+  </nav>
+
+  <main>
+    <section class="page active" id="home">
+      <div class="home-wrap">
+        <div class="ornament">♡ ✿ ♡</div>
+        <div class="eyebrow">♡ Un pequeño espacio para ella ♡</div>
+        <h1>AdmielDeDios</h1>
+        <p>
+          Un rincón delicado inspirado en lo que ella misma comparte:
+          alegría, sinceridad, amistad, sensibilidad y una forma de vivir
+          sin buscar conflictos innecesarios.
+        </p>
+        <div class="portal-grid">
+          <button class="portal-card" data-page="about">
+            <div class="icon">🌷</div>
+            <h3>Sobre mí</h3>
+            <p>Conoce un poquito de mi forma de ser.</p>
+            <span>ENTRAR →</span>
+          </button>
+          <button class="portal-card" data-page="gallery">
+            <div class="icon">📷</div>
+            <h3>Mis momentos</h3>
+            <p>Un rincón para mis fotografías y recuerdos.</p>
+            <span>ENTRAR →</span>
+          </button>
+          <button class="portal-card" data-page="audio">
+            <div class="icon">🎧</div>
+            <h3>Mi música</h3>
+            <p>Las canciones que forman parte de mi universo.</p>
+            <span>ENTRAR →</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="about">
+      <div class="eyebrow">Un poquito de mí</div>
+      <h1>Sobre mí</h1>
+      <p class="subtitle">Porque detrás de un perfil siempre existe una historia que vale la pena conocer.</p>
+
+      <div class="about-grid">
+        <aside class="profile-card">
+          <div class="avatar">A</div>
+          <h2>AdmielDeDios</h2>
+          <small>♡ México · espacio personal ♡</small>
+          <div class="tags">
+            <span class="tag">ALEGRE</span>
+            <span class="tag">SINCERA</span>
+            <span class="tag">AMISTOSA</span>
+            <span class="tag">SENSIBLE</span>
+          </div>
+          <div style="margin-top:20px;color:#b39164;font-size:11px;letter-spacing:.12em">
+            🇲🇽 MÉXICO · ♡ HAKUNA MATATA ♡
+          </div>
+        </aside>
+
+        <article class="history-card">
+          <div class="history-step active">
+            <p>Me considero <strong>alegre, sincera, amistosa</strong> y a la vez muy sensible.</p>
+          </div>
+          <div class="history-step">
+            <p>Me encariño fácilmente con las personas y me gusta <strong>dar lo mejor de mí</strong>.</p>
+          </div>
+          <div class="history-step">
+            <p>Me gusta respetar a los demás; no me gustan los <strong>conflictos</strong> ni entrar en discusiones innecesarias.</p>
+          </div>
+          <div class="history-step">
+            <p>Este espacio es para compartir un poquito de mí y dejar un recuerdo bonito en cada visita. <strong>♡</strong></p>
+          </div>
+
+          <div class="history-controls">
+            <button id="prev">← ANTERIOR</button>
+            <div class="dots" id="dots">
+              <button class="dot active"></button>
+              <button class="dot"></button>
+              <button class="dot"></button>
+              <button class="dot"></button>
+            </div>
+            <button id="next">SIGUIENTE →</button>
+          </div>
+
+          <div class="quote-card">
+            <p>“Hakuna Matata”</p>
+            <span>♡ VIVIR, DISFRUTAR Y DEJAR FLUIR ♡</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="gallery">
+      <div class="eyebrow">Recuerdos que quiero conservar</div>
+      <h1>Mis momentos</h1>
+      <p class="subtitle">Aquí puedes colocar sus fotografías reales. Dejé tarjetas suaves para que el espacio no se vea vacío mientras se agregan las imágenes.</p>
+
+      <div class="gallery">
+        <div class="gallery-item"><div class="placeholder"><b>♡</b><span>FOTO ESPECIAL 01</span></div></div>
+        <div class="gallery-item"><div class="placeholder"><b>✿</b><span>FOTO ESPECIAL 02</span></div></div>
+        <div class="gallery-item"><div class="placeholder"><b>♡</b><span>FOTO ESPECIAL 03</span></div></div>
+        <div class="gallery-item"><div class="placeholder"><b>✧</b><span>FOTO ESPECIAL 04</span></div></div>
+        <div class="gallery-item"><div class="placeholder"><b>🌷</b><span>FOTO ESPECIAL 05</span></div></div>
+        <div class="gallery-item"><div class="placeholder"><b>♡</b><span>FOTO ESPECIAL 06</span></div></div>
+      </div>
+      <div class="replace-note">💡 Sustituye cada tarjeta por una etiqueta &lt;img&gt; con sus fotos. El diseño ya está preparado para mantener el estilo femenino.</div>
+    </section>
+
+    <section class="page" id="audio">
+      <div class="eyebrow">Un rincón para sus canciones</div>
+      <h1>Mi música</h1>
+      <div class="audio-wrap">
+        <div class="audio-card">
+          <div class="disc">♡</div>
+          <h2>Mi soundtrack</h2>
+          <p>LAS CANCIONES QUE ME ACOMPAÑAN</p>
+          <button class="audio-btn" id="audioBtn">PLAY ♫</button>
+          <p id="audioStatus">LISTO PARA REPRODUCIR</p>
+        </div>
+      </div>
+      <div class="quote-card">
+        <p>“Que la vida siempre tenga una canción bonita de fondo.”</p>
+        <span>AdmielDeDios ♡</span>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  const intro = document.getElementById('intro');
+  const app = document.getElementById('app');
+  const enter = document.getElementById('enter');
+  const menu = document.getElementById('menu');
+  const menuTab = document.getElementById('menuTab');
+  const pages = [...document.querySelectorAll('.page')];
+
+  function showPage(id){
+    pages.forEach(p => p.classList.toggle('active', p.id === id));
+    menu.classList.remove('open');
+    menuTab.classList.remove('hidden');
+    menuTab.setAttribute('aria-expanded','false');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(id === 'about') renderHistory(0);
+  }
+
+  enter.addEventListener('click', () => {
+    intro.classList.add('hide');
+    app.classList.add('show');
+  });
+
+  menuTab.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    menuTab.setAttribute('aria-expanded',String(open));
+  });
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-page]');
+    if(b) showPage(b.dataset.page);
+    if(menu.classList.contains('open') && !menu.contains(e.target) && e.target !== menuTab){
+      menu.classList.remove('open');
+      menuTab.setAttribute('aria-expanded','false');
+    }
+  });
+
+  /* Historia */
+  const steps = [...document.querySelectorAll('.history-step')];
+  const dots = [...document.querySelectorAll('.dot')];
+  let index = 0;
+
+  function renderHistory(i){
+    index = Math.max(0,Math.min(steps.length-1,i));
+    steps.forEach((s,n)=>s.classList.toggle('active',n===index));
+    dots.forEach((d,n)=>d.classList.toggle('active',n===index));
+    document.getElementById('prev').disabled = index === 0;
+    document.getElementById('next').textContent = index === steps.length-1 ? 'FINALIZAR ✓' : 'SIGUIENTE →';
+  }
+  document.getElementById('prev').addEventListener('click',()=>renderHistory(index-1));
+  document.getElementById('next').addEventListener('click',()=>renderHistory(index+1));
+  dots.forEach((d,i)=>d.addEventListener('click',()=>renderHistory(i)));
+
+  /* Música: el botón queda listo para conectar un MP3/URL */
+  const audioBtn = document.getElementById('audioBtn');
+  const audioStatus = document.getElementById('audioStatus');
+  let fakePlaying = false;
+  audioBtn.addEventListener('click',()=>{
+    fakePlaying = !fakePlaying;
+    document.body.classList.toggle('playing',fakePlaying);
+    audioBtn.textContent = fakePlaying ? 'PAUSA ♫' : 'PLAY ♫';
+    audioStatus.textContent = fakePlaying ? 'REPRODUCIENDO / MI SOUNDTRACK' : 'LISTO PARA REPRODUCIR';
+  });
+})();
+</script>
+</body>
+</html>
