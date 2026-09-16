@@ -1846,8 +1846,7 @@ body.welcome-is-open{
 
 function startBackgroundMusic() {
   if (!bgMusic) return;
-  bgMusic.currentTime = 0;
-  bgMusic.play().then(() => document.body.classList.add('playing')).catch(error => console.log('El navegador bloqueó el audio:', error));
+bgMusic.play().then(() => document.body.classList.add('playing')).catch(error => console.log('El navegador bloqueó el audio:', error));
 }
 
   enter.addEventListener('click', async () => {
@@ -1931,8 +1930,7 @@ document.addEventListener("DOMContentLoaded", function(){
     enterBtn.addEventListener("click", function(){
       const bgMusic = document.getElementById("bgMusic");
       if (bgMusic) {
-        bgMusic.currentTime = 0;
-        bgMusic.play().then(function(){
+bgMusic.play().then(function(){
           document.body.classList.add("playing");
         }).catch(function(error){
           console.log("No se pudo iniciar la música:", error);
